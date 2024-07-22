@@ -10,19 +10,19 @@ namespace MongoDbNight.Services.CategoryServices
     {
         private readonly IMongoCollection<Category> _categoryCollection;
         private readonly IMapper _mapper;
-        public CategoryService(IMapper mapper,IDataBaseSettings _databaseSettings)
+        public CategoryService(IMapper mapper, IDataBaseSettings _databaseSettings)
         {
             var client = new MongoClient(_databaseSettings.ConnectionString);
-                var database = client.GetDatabase(_databaseSettings.DataBaseName);
+            var database = client.GetDatabase(_databaseSettings.DataBaseName);
             _categoryCollection = database.GetCollection<Category>(_databaseSettings.CategoryCollectionName);
             _mapper = mapper;
 
         }
         public async Task CreateCategoryAsync(CreateCategoryDto createCategoryDto)
         {
-            var value= _mapper.Map<Category>(createCategoryDto);
+            var value = _mapper.Map<Category>(createCategoryDto);
             await _categoryCollection.InsertOneAsync(value);
-           
+
         }
 
         public async Task DeleteCategoryAsync(string id)
